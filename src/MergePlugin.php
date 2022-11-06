@@ -331,7 +331,7 @@ class MergePlugin implements PluginInterface, EventSubscriberInterface
     public function onPostInstallOrUpdate(ScriptEvent $event)
     {
         // @codeCoverageIgnoreStart
-        if ($this->state->isFirstInstall()) {
+        if ($this->state->isFirstInstall() && $this->state->shouldRunComposerUpdate()) {
             $this->state->setFirstInstall(false);
 
             $requirements = $this->getUpdateAllowList();

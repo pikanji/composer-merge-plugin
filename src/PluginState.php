@@ -113,6 +113,13 @@ class PluginState
     protected $mergeScripts = false;
 
     /**
+     * Whether to execute `composer update` after `composer install` or `composer update` for the first time
+     * after this plugin is installed.
+     * @var bool $autoUpdate
+     */
+    protected $autoUpdate = true;
+
+    /**
      * @var bool $firstInstall
      */
     protected $firstInstall = false;
@@ -169,6 +176,7 @@ class PluginState
                 'merge-extra-deep' => false,
                 'merge-replace' => true,
                 'merge-scripts' => false,
+                'auto-update' => true,
             ],
             $extra['merge-plugin'] ?? []
         );
@@ -185,6 +193,7 @@ class PluginState
         $this->mergeExtraDeep = (bool)$config['merge-extra-deep'];
         $this->mergeReplace = (bool)$config['merge-replace'];
         $this->mergeScripts = (bool)$config['merge-scripts'];
+        $this->autoUpdate = (bool)$config['auto-update'];
     }
 
     /**
@@ -417,6 +426,16 @@ class PluginState
     public function shouldMergeScripts()
     {
         return $this->mergeScripts;
+    }
+
+    /**
+     * Should `composer update` executed?
+     *
+     * @return bool
+     */
+    public function shouldRunComposerUpdate()
+    {
+        return $this->autoUpdate;
     }
 }
 // vim:sw=4:ts=4:sts=4:et:
